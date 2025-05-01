@@ -90,7 +90,7 @@ data "aws_ami" "latest-amazon-linux-image" {
 
 # Create EC2 Instance
 resource "aws_instance" "myapp_server" {
-  ami                    = data.aws_ami.lts_amazon_linux.id
+  ami                    = data.aws_ami.latest-amazon-linux-image.id
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.myapp_subnet.id
   vpc_security_group_ids = [aws_default_security_group.myapp_sg.id]
