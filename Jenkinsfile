@@ -65,7 +65,7 @@ pipeline {
       steps {
         script {
           echo 'Waiting for EC2 server to initialize...'
-          sleep(time: 120, unit: "SECONDS")
+          sleep(time: 90, unit: "SECONDS")
 
           echo "Deploying Docker image to EC2 at ${EC2_PUBLIC_IP}..."
 
