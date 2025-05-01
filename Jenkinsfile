@@ -56,7 +56,7 @@ pipeline {
     }
     stage("deploy") {
       environment {
-        DOCKER_CREDS = credentials('dockerhub-credentials')
+        DOCKER_CREDS = credentials('dockerhub-creds')
       }
       steps {
         script {
