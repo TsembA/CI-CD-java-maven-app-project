@@ -18,8 +18,12 @@ sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPO
 # Make it executable
 sudo chmod +x /usr/local/bin/docker-compose
 
-# Verify installation
-docker-compose --version
+# Symlink for systems where /usr/local/bin is not in sudo PATH
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+# Verify it works for both normal and sudo users
+docker-compose version
+sudo docker-compose version
 
 
 # Ensure /usr/local/bin is in the PATH
