@@ -15,6 +15,9 @@ DOCKER_COMPOSE_VERSION="v2.35.1"
 sudo curl -SL "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
+# Ensure /usr/local/bin is in the PATH
+export PATH=$PATH:/usr/local/bin
+
 # Check if docker-compose was installed correctly
 if ! command -v docker-compose &> /dev/null; then
     echo "❌ docker-compose installation failed. Exiting..."
