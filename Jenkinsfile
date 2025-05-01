@@ -34,22 +34,30 @@ pipeline {
         }
       }
     }
-    stage("provision server"){
-      environment{
+    stage("provision server") {
+      environment {
         AWS_ACCESS_KEY_ID = credentials('jenkins_aws_access_key_id')
-        AWS_SECRET_ACCESS_KEY_ID = credentials ('jenkins_aws_secret_access_key')
+        AWS_SECRET_ACCESS_KEY = credentials('jenkins_aws_secret_access_key')
         TF_VAR_env_prefix = 'test'
       }
       steps {
-        script{
+        script {
+          // Ensure the AWS credentials are available for Terraform
+          echo "Using AWS Access Key: ${AWS_ACCESS_KEY_ID}"
+          echo "Using AWS Secret Key: ${AWS_SECRET_ACCESS_KEY}"
+
+          // Running Terraform commands with proper AWS credentials
           dir('terraform') {
-            sh "terraform init"
-            sh "terraform apply --auto-approve"
+            sh """
+              export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+              export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+              terraform init
+              terraform apply --auto-approve
+            """
             EC2_PUBLIC_IP = sh(
               script: "terraform output ec2_public_ip",
               returnStdout: true
             ).trim()
-
           }
         }
       }
