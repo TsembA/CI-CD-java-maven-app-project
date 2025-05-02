@@ -40,18 +40,23 @@ Your main.tf defines:
 Custom VPC and Subnet
 Public access via Internet Gateway
 Routing through default route table
+
 🔹 Security Configuration
 
 Default Security Group:
 Allows SSH (22) only from your IP and Jenkins IP
 Allows HTTP traffic (8080) from anywhere
 Allows all outbound traffic
+
+
 🔹 EC2 Instance
 
 Uses latest Amazon Linux 2 AMI
 Type defined by variable (var.instance_type)
 Public IP enabled
 SSH key name: myapp-key
+
+
 🔹 Output
 
 Public IP of EC2 instance (output "ec2_public_ip")
@@ -67,8 +72,8 @@ github-credentials: Access to shared library
 dockerhub-creds: For DockerHub login
 jenkins_aws_access_key_id & jenkins_aws_secret_access_key_id: For Terraform provisioning
 server-ssh-key: SSH access to EC2
-✅ Result
-You end up with:
+
+✅ Result you end up with:
 
 An app built and pushed to DockerHub
 A fully provisioned EC2 instance
