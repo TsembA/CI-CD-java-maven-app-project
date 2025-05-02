@@ -1,80 +1,116 @@
-🚀 Project Description: CI/CD Pipeline with Jenkins and Terraform on AWS
+# 🚀 CI/CD Pipeline for Dockerized Java App with Jenkins, Terraform, and AWS
 
-This project automates the build, infrastructure provisioning, and deployment of a containerized Java application using Jenkins, Docker, Terraform, and AWS.
+This project demonstrates a complete CI/CD workflow using **Jenkins**, **Terraform**, **Docker**, and **AWS** to build, provision, and deploy a Java-based microservice in an automated pipeline.
 
-🔁 CI/CD Pipeline Overview (Jenkinsfile)
-The Jenkins pipeline performs the following automated stages:
+---
 
-1. Build Application
+## 📦 Technologies Used
 
-Uses Maven to compile and package the Java application into a JAR file using a shared library function: buildJar().
-2. Build and Push Docker Image
+- **Jenkins** – Orchestrates CI/CD pipeline
+- **Docker & Docker Compose** – Containerizes and deploys the application
+- **Terraform** – Provisions AWS infrastructure
+- **AWS EC2, VPC, Security Groups** – Hosting the application
+- **Maven** – Builds the Java application
+- **GitHub** – Source code and shared library
+- **DockerHub** – Image registry
 
-Builds a Docker image using buildImage(IMAGE_NAME).
-Logs into DockerHub using credentials stored in Jenkins.
-Pushes the Docker image (tsemb/demo-app:jma-6.0) to DockerHub via dockerPush(IMAGE_NAME).
-3. Provision Infrastructure with Terraform
+---
 
-Uses stored AWS credentials to initialize and apply Terraform code.
-Spins up:
-A new VPC
-Subnet, Internet Gateway, Route Table
-Security Group
-Amazon Linux EC2 Instance (AMI fetched dynamically)
-Outputs the public IP of the EC2 instance for deployment.
-4. Deploy Application to EC2
+## ⚙️ Pipeline Overview
 
-Waits 90 seconds for EC2 initialization.
-Uses scp to copy:
-docker-compose.yaml
-server-cmds.sh (bash setup & deploy script)
-Executes server-cmds.sh remotely via SSH, which:
-Installs Docker & Docker Compose
-Logs in to DockerHub
-Runs the container with the pulled image
-☁️ Infrastructure (Terraform)
-Your main.tf defines:
+The Jenkins pipeline (written in Groovy) performs the following stages:
 
-🔹 VPC Setup
+### 1️⃣ Build Application
+- Packages the Java Maven app into a `.jar`
+- Uses shared library function: `buildJar()`
 
-Custom VPC and Subnet
-Public access via Internet Gateway
-Routing through default route table
+### 2️⃣ Build & Push Docker Image
+- Builds image with `buildImage()`
+- Logs into DockerHub
+- Pushes image `tsemb/demo-app:jma-6.0`
 
-🔹 Security Configuration
+### 3️⃣ Provision Infrastructure (Terraform)
+- Provisions AWS:
+  - VPC, Subnet, Internet Gateway, Route Table
+  - Security Group (SSH, Port 8080)
+  - EC2 instance with latest Amazon Linux 2 AMI
+- Outputs EC2 public IP for deployment
 
-Default Security Group:
-Allows SSH (22) only from your IP and Jenkins IP
-Allows HTTP traffic (8080) from anywhere
-Allows all outbound traffic
+### 4️⃣ Deploy to EC2
+- Connects via SSH to EC2 instance
+- Installs Docker & Docker Compose
+- Logs into DockerHub
+- Deploys the image using `docker-compose up -d`
 
+---
 
-🔹 EC2 Instance
+## 🗂️ Repository Structure
 
-Uses latest Amazon Linux 2 AMI
-Type defined by variable (var.instance_type)
-Public IP enabled
-SSH key name: myapp-key
+```
+├── Jenkinsfile
+├── server-cmds.sh
+├── docker-compose.yaml
+├── terraform/
+│   ├── main.tf
+│   └── variables.tf
+```
 
+---
 
-🔹 Output
+## 🔐 Security & Credentials (Managed in Jenkins)
 
-Public IP of EC2 instance (output "ec2_public_ip")
-📦 Deployment Script (server-cmds.sh)
-Once executed via SSH on the EC2 instance, this script:
+- `github-credentials` – Access to shared library
+- `dockerhub-creds` – DockerHub username/password
+- `jenkins_aws_access_key_id`, `jenkins_aws_secret_access_key_id` – AWS access keys
+- `server-ssh-key` – SSH access to EC2
 
-Installs Docker and Docker Compose
-Logs into DockerHub
-Sets up .env with the image name
-Uses docker-compose to deploy the containerized app
-🔒 Credentials & Secrets (in Jenkins)
-github-credentials: Access to shared library
-dockerhub-creds: For DockerHub login
-jenkins_aws_access_key_id & jenkins_aws_secret_access_key_id: For Terraform provisioning
-server-ssh-key: SSH access to EC2
+---
 
-✅ Result you end up with:
+## 🌍 Infrastructure Diagram
 
-An app built and pushed to DockerHub
-A fully provisioned EC2 instance
-The app automatically deployed and accessible via the EC2 public IP on port 8080
+```
+GitHub → Jenkins → DockerHub
+             ↓
+         Terraform
+             ↓
+          AWS EC2
+             ↓
+  Docker Compose (App + Postgres)
+```
+
+---
+
+## 📸 Sample Output
+
+After successful deployment, the application is accessible at:
+
+```bash
+http://<EC2_PUBLIC_IP>:8080
+```
+
+You can check logs via:
+
+```bash
+ssh ec2-user@<EC2_PUBLIC_IP>
+docker ps
+docker logs <container_id>
+```
+
+---
+
+## 💼 Ideal For
+
+✅ DevOps Engineer portfolio  
+✅ Demonstrating end-to-end CI/CD automation  
+✅ Showcasing Terraform IaaC skills  
+✅ Real-world Docker and Jenkins implementation
+
+---
+
+## 📬 Contact
+
+Created by **Арно** – DevOps Engineer | ex-Ballet Artist  
+[LinkedIn](https://www.linkedin.com/in/your-link) • [GitHub](https://github.com/TsembA)
+
+---
+
