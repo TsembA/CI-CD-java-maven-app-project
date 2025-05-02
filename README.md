@@ -98,19 +98,10 @@ docker logs <container_id>
 
 ---
 
-## 💼 Ideal For
-
-✅ DevOps Engineer portfolio  
+## 
 ✅ Demonstrating end-to-end CI/CD automation  
 ✅ Showcasing Terraform IaaC skills  
 ✅ Real-world Docker and Jenkins implementation
-
----
-
-## 📬 Contact
-
-Created by **Арно** – DevOps Engineer | ex-Ballet Artist  
-[LinkedIn](https://www.linkedin.com/in/your-link) • [GitHub](https://github.com/TsembA)
 
 ---
 
