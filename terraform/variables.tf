@@ -24,7 +24,7 @@ variable "my_ip" {
 }
 
 variable "instance_type" {
-    default = "t2.small"
+    default = "t2.micro"
 }
 
 variable "region" {
