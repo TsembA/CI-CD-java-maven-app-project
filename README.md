@@ -8,7 +8,7 @@ This project demonstrates a complete CI/CD workflow using **Jenkins**, **Terrafo
 
 - **Jenkins** – Orchestrates CI/CD pipeline
 - **Docker & Docker Compose** – Containerizes and deploys the application
-- **Terraform** – Provisions AWS infrastructure
+- **Terraform** - Provisions AWS infrastructure, with remote state stored securely in an S3 bucket
 - **AWS EC2, VPC, Security Groups** – Hosting the application
 - **Maven** – Builds the Java application
 - **GitHub** – Source code and shared library
@@ -35,6 +35,7 @@ The Jenkins pipeline (written in Groovy) performs the following stages:
   - Security Group (SSH, Port 8080)
   - EC2 instance with latest Amazon Linux 2 AMI
 - Outputs EC2 public IP for deployment
+- Remote state management is implemented via an S3 bucket
 
 ### 4️⃣ Deploy to EC2
 - Connects via SSH to EC2 instance
